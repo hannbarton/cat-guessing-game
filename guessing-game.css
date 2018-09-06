@@ -51,7 +51,7 @@ h3 {
     width: 70px;
     height: 60px;
     background-color: white;
-    background-image: url('');
+    background-image: '';
     background-repeat: no-repeat;
     background-position: bottom;
     border: 2px solid rgb(224, 217, 189);
@@ -116,11 +116,10 @@ h3 {
 input {
     background-image: url('https://piskel-imgstore-b.appspot.com/img/5912b861-b02c-11e8-8d1f-535cd63389a4.gif');
     background-repeat: no-repeat;
-    opacity: 0.95;
+    opacity: 0.9;
     width: 344px;
     height: 264px;
-    border: 7px grey;
-    align-content: center;
+    border: 7px;
     color: #514e63;
     font-size: 11pt;
     font-family: "Minecraftia-Regular", 'Jua', sans-serif;

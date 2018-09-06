@@ -1,4 +1,4 @@
-const wrong = {
+const finalImage = {
     background: "url('https://piskel-imgstore-b.appspot.com/img/df936ab8-aee9-11e8-834f-574ce756a06c.gif')",
     lose: 'https://piskel-imgstore-b.appspot.com/img/634e5d57-b20b-11e8-b45a-8788d64d4327.gif',
     win: 'https://piskel-imgstore-b.appspot.com/img/9dead24f-b208-11e8-89b5-8788d64d4327.gif',
@@ -35,13 +35,14 @@ class Game {
     difference() {
         return Math.abs(this.winningNumber - this.playersGuess)
     }
-    isLower(num) {
-        if (num < this.winningNumber) {
+    isLower() {
+        if (this.playersGuess > this.winningNumber) {
             return 'Guess lower!'
         }
-        else {
+        else if (this.playersGuess < this.winningNumber){
             return 'Guess higher!'
         }
+        return 'Play again?'
     }
     playersGuessSubmission(guess) {
         if (this.gameOver) {
@@ -51,42 +52,39 @@ class Game {
             if (guess < 1 || guess > 100 || isNaN(guess)) {
                 return `Please submit a valid number.`
             }
-            this.playersGuess = guess;
-            this.guessCount += 1;
-            this.checkGuess();
+            else {
+                this.playersGuess = parseInt(guess, 10);
+                this.guessCount++;
+                this.isLower()
+                return this.checkGuess();
+            }
         }
     }
 
     checkGuess() {
-
         if (this.pastGuesses.includes(this.playersGuess)) {
             this.guessCount -= 1;
             return 'You have already guessed that number.'
         }
         else {
-            this.difference();
             this.pastGuesses.push(this.playersGuess);
-
             this.addGuess(this.playersGuess);
 
             if (this.playersGuess === this.winningNumber) {
                 this.gameOver = true;
+                document.getElementById('final-image').src = finalImage.win;
+                document.getElementById('user-guess').parentNode.removeChild(document.getElementById('user-guess'));
 
-                // document.getElementsByClassName('input').style.display = 'none';
-                document.getElementById('final-image').src = wrong.win;
-
-                return 'You Win!'
+                return 'You Win! This winning number was ' + this.winningNumber;
             }
-            else if (this.guessCount > 4) {
+            else if (this.pastGuesses.length >= 5) {
                 this.gameOver = true;
-
-                document.getElementsByClassName('input').style.backgroundImage = 'none';
-                document.getElementById('final-image').src = wrong.lose;
-
-                return 'You Lose. The winning number was ' + this.winningNumber;
+                document.getElementById('final-image').src = finalImage.lose;
+                document.getElementById('user-guess').parentNode.removeChild(document.getElementById('user-guess'));
+                return 'You Lose! The winning number was ' + this.winningNumber;
             }
             else if (this.difference() < 10) {
-                return 'You are burning up!'
+                return `You are burning up! `
             }
             else if (this.difference() < 25) {
                 return `You are lukewarm. `
@@ -115,31 +113,31 @@ class Game {
     addGuess(num) {
         if (this.guessCount === 1) {
             document.getElementById('guess1').innerHTML = num;
-            document.getElementById('guess1').style.backgroundImage = wrong.background;
+            document.getElementById('guess1').style.backgroundImage = finalImage.background;
         }
         if (this.guessCount === 2) {
             document.getElementById('guess2').innerHTML = num;
-            document.getElementById('guess2').style.backgroundImage = wrong.background;
+            document.getElementById('guess2').style.backgroundImage = finalImage.background;
         }
         if (this.guessCount === 3) {
             document.getElementById('guess3').innerHTML = num;
-            document.getElementById('guess3').style.backgroundImage = wrong.background;
+            document.getElementById('guess3').style.backgroundImage = finalImage.background;
         }
         if (this.guessCount === 4) {
             document.getElementById('guess4').innerHTML = num;
-            document.getElementById('guess4').style.backgroundImage = wrong.background;
+            document.getElementById('guess4').style.backgroundImage = finalImage.background;
         }
         else if (this.guessCount === 5) {
             document.getElementById('guess5').innerHTML = num;
-            document.getElementById('guess5').style.backgroundImage = wrong.background;
+            document.getElementById('guess5').style.backgroundImage = finalImage.background;
         }
     }
 }
 
-function resetStyle() {
-    let elem = document.getElementById('input');
-    elem.style.display = 'inline';
-}
+// function resetStyle() {
+//     let elem = document.getElementById('input');
+//     elem.style.display = 'inline';
+// }
 
 function newGame() {
     return new Game()
@@ -154,7 +152,8 @@ window.onload = function() {
 
         let userSubmit = parseInt(document.getElementById('user-guess').value, 10);
 
-        document.querySelector('h3').innerHTML = game.playersGuessSubmission(userSubmit);
+        document.querySelector('h3').innerHTML = game.playersGuessSubmission(userSubmit)
+        document.querySelector('h2').innerHTML = game.isLower(userSubmit);
         document.getElementById('user-guess').value = ''
     });
 
@@ -166,27 +165,29 @@ window.onload = function() {
     //Reset
     document.getElementById('reset').addEventListener('click', function() {
         game = newGame();
+        window.location.reload();
 
-        document.getElementById('guess1').innerHTML = '-';
-        document.getElementById('guess2').innerHTML = '-';
-        document.getElementById('guess3').innerHTML = '-';
-        document.getElementById('guess4').innerHTML = '-';
-        document.getElementById('guess5').innerHTML = '-';
+        // document.getElementById('guess1').innerHTML = '-';
+        // document.getElementById('guess2').innerHTML = '-';
+        // document.getElementById('guess3').innerHTML = '-';
+        // document.getElementById('guess4').innerHTML = '-';
+        // document.getElementById('guess5').innerHTML = '-';
 
-        document.getElementById('guess1').style.backgroundImage = '';
-        document.getElementById('guess2').style.backgroundImage = '';
-        document.getElementById('guess3').style.backgroundImage = '';
-        document.getElementById('guess4').style.backgroundImage = '';
-        document.getElementById('guess5').style.backgroundImage = '';
+        // document.getElementById('guess1').style.backgroundImage = '';
+        // document.getElementById('guess2').style.backgroundImage = '';
+        // document.getElementById('guess3').style.backgroundImage = '';
+        // document.getElementById('guess4').style.backgroundImage = '';
+        // document.getElementById('guess5').style.backgroundImage = '';
 
-        document.querySelector('h3').innerHTML = 'Take your best shot!';
+        // document.querySelector('h3').innerHTML = 'This game has been reset';
+        // document.querySelector('user-guess').innerHTML = 'TEXT HERE';
 
-        //take out final ending game image
-        document.getElementById('final-image').src = '';
+        // //take out final ending game image
+        // document.getElementById('final-image').src = '';
 
-        resetStyle();
-        document.getElementsByClassName('input').style.display = 'block';
-        document.getElementById('user-guess').style.display = 'block';
+        // // resetStyle();
+        // document.getElementsByClassName('input').style.display = 'block';
+        // document.getElementById('user-guess').style.display = 'block';
     });
 };
 
