@@ -1,3 +1,4 @@
+//final images to be shown
 const finalImage = {
     background: "url('https://piskel-imgstore-b.appspot.com/img/df936ab8-aee9-11e8-834f-574ce756a06c.gif')",
     lose: 'https://piskel-imgstore-b.appspot.com/img/634e5d57-b20b-11e8-b45a-8788d64d4327.gif',
