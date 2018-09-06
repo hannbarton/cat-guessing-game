@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>The Guessing Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="guessing-game.css" />
+    <link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
+</head>
+<body>
+    <div class='main-container'>
+            <h1>The Guessing Game</h1>
+            <h2 id='top-message'>Guess the randomly generated number between 1 - 100!</h2>
+        
+            <h3 id='hint-message'>Take your best shot!</h3>
+            <img id='final-image' src="" alt="">
+            <br>
+            <div class='input'>
+                    <input type='text' id="user-guess" placeholder="TYPE HERE" maxlength='3' autofocus=autofocus>
+            </div>
+            <div class="menu-btns">
+                <button type="button" id="submit" class="submit-btn">Submit</button>
+            <br>
+            </div>
+            <div class='guess-container'>
+                <div class='guesses'>
+                    <br>
+                    <li class='guess' id='guess1'>-</li>
+                    <li class='guess' id='guess2'>-</li>
+                    <li class='guess' id='guess3'>-</li>
+                    <li class='guess' id='guess4'>-</li>
+                    <li class='guess' id='guess5'>-</li>
+                </div>
+            </div>
+        <div class="menu-btns">
+                <button type="button" id="reset" class="reset-btn">RESET</button>
+                <button type="button" id="hint" class="hint-btn">HINT?</button>
+        </div>
+    </div>
+
+</body> 
+
+    <br>
+<footer>
+</footer>
+<script src="guessing-game.js"></script>  
+</html>
