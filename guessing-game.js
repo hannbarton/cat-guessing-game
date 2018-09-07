@@ -37,8 +37,12 @@ class Game {
         return Math.abs(this.winningNumber - this.playersGuess)
     }
     isLower() {
+
         if (this.playersGuess) {
-            if (this.playersGuess > this.winningNumber) {
+            if (this.playersGuess === this.winningNumber) {
+                return ' '
+            }
+            else if (this.playersGuess > this.winningNumber) {
                 return 'Guess lower!'
             }
             else if (this.playersGuess < this.winningNumber){
