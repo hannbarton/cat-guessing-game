@@ -1,8 +1,8 @@
 //final images to be shown
 const finalImage = {
     background: "url('https://piskel-imgstore-b.appspot.com/img/df936ab8-aee9-11e8-834f-574ce756a06c.gif')",
-    lose: 'https://piskel-imgstore-b.appspot.com/img/634e5d57-b20b-11e8-b45a-8788d64d4327.gif',
-    win: 'https://piskel-imgstore-b.appspot.com/img/9dead24f-b208-11e8-89b5-8788d64d4327.gif',
+    lose: 'https://piskel-imgstore-b.appspot.com/img/2eaed8e3-b2aa-11e8-ba3b-718f047732ad.gif',
+    win: 'https://piskel-imgstore-b.appspot.com/img/2ae1bc47-b2a9-11e8-8fe6-718f047732ad.gif',
 }
 
 //generate random winning number between 1 - 100
@@ -37,17 +37,19 @@ class Game {
         return Math.abs(this.winningNumber - this.playersGuess)
     }
     isLower() {
-        if (this.playersGuess > this.winningNumber) {
-            return 'Guess lower!'
+        if (this.playersGuess) {
+            if (this.playersGuess > this.winningNumber) {
+                return 'Guess lower!'
+            }
+            else if (this.playersGuess < this.winningNumber){
+                return 'Guess higher!'
+            }
         }
-        else if (this.playersGuess < this.winningNumber){
-            return 'Guess higher!'
-        }
-        return 'Play again?'
+        return 'Try Again.'
     }
     playersGuessSubmission(guess) {
         if (this.gameOver) {
-            return `Game Over! You have no more guesses left ;_;`
+            return `Game Over! Click Reset to play again!`
         }
         else if (!this.gameOver) {
             if (guess < 1 || guess > 100 || isNaN(guess)) {
@@ -76,7 +78,7 @@ class Game {
                 document.getElementById('final-image').src = finalImage.win;
                 document.getElementById('user-guess').parentNode.removeChild(document.getElementById('user-guess'));
 
-                return 'You Win! This winning number was ' + this.winningNumber;
+                return 'You Win! The winning number was ' + this.winningNumber;
             }
             else if (this.pastGuesses.length >= 5) {
                 this.gameOver = true;
@@ -85,16 +87,16 @@ class Game {
                 return 'You Lose! The winning number was ' + this.winningNumber;
             }
             else if (this.difference() < 10) {
-                return `You are burning up! `
+                return `You are burning up!`
             }
             else if (this.difference() < 25) {
-                return `You are lukewarm. `
+                return `You are lukewarm.`
             }
             else if (this.difference() < 50) {
-                return `You're a bit chilly. `
+                return `You're a bit chilly.`
             }
             else if (this.difference() < 100) {
-                return `You're ice cold! `
+                return `You're ice cold!`
             }
         }
     }
@@ -102,7 +104,6 @@ class Game {
         let hintArr = [this.winningNumber, generateWinningNumber(), generateWinningNumber()]
 
         if (this.gotHint === false) {
-            
             this.gotHint = true;
             shuffle(hintArr);
             return `One of the numbers is: ${hintArr[0]}, or ${hintArr[1]}, or ${hintArr[2]}`
@@ -135,11 +136,6 @@ class Game {
     }
 }
 
-// function resetStyle() {
-//     let elem = document.getElementById('input');
-//     elem.style.display = 'inline';
-// }
-
 function newGame() {
     return new Game()
 }
@@ -157,13 +153,21 @@ window.onload = function() {
         document.querySelector('h2').innerHTML = game.isLower(userSubmit);
         document.getElementById('user-guess').value = ''
     });
+    //Press Enter
+    document.getElementById('user-guess').addEventListener('keyup', function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            document.getElementById('submit').click();
+        }
+    })
 
     //Hint
     document.getElementById('hint').addEventListener('click', function() {
         document.querySelector('h3').innerHTML = game.provideHint();
     });
-    
     //Reset
+    //I decided to totally reload page because resetting everything to default and bringing back input-fish form was too complicated.
+    //I originally tried to do show/hide through display: 'none', but this broke my code. I ended up choosing the simpler solution.
     document.getElementById('reset').addEventListener('click', function() {
         game = newGame();
         window.location.reload();
@@ -186,7 +190,6 @@ window.onload = function() {
         // //take out final ending game image
         // document.getElementById('final-image').src = '';
 
-        // // resetStyle();
         // document.getElementsByClassName('input').style.display = 'block';
         // document.getElementById('user-guess').style.display = 'block';
     });

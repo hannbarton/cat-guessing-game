@@ -125,6 +125,7 @@ input {
     font-family: "Minecraftia-Regular", 'Jua', sans-serif;
     background-color: rgb(250,250,250,0);
     justify-content: center;
+    margin: .5px;
 }
 #user-guess {
     text-align: center;
