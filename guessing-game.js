@@ -40,7 +40,7 @@ class Game {
 
         if (this.playersGuess) {
             if (this.playersGuess === this.winningNumber) {
-                return ' '
+                return 'Yay!'
             }
             else if (this.playersGuess > this.winningNumber) {
                 return 'Guess lower!'
