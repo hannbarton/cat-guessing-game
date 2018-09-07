@@ -55,7 +55,7 @@ h3 {
     background-image: '';
     background-repeat: no-repeat;
     background-position: bottom;
-    border: 3px solid #568DAF;
+    border: 2px solid #568DAF;
 }
 .guess:hover {
     opacity: .7
